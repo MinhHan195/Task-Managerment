@@ -1,15 +1,10 @@
+import AppRouter from "./router/router";
 function App() {
-
-  return (
-    <div className="app">
-      <header>
-        <h1>My App</h1>
-      </header>
-      <main>
-        <p>Welcome to my app!</p>
-      </main>
-    </div>
-  )
+    return (
+        <div style={{ margin: 0, padding: 0 }}>
+            <AppRouter />
+        </div>
+    );
 }
 
-export default App
+export default App;
