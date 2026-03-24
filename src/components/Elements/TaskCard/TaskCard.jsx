@@ -42,7 +42,7 @@ const TaskCard = () => {
                     >
                         Completed
                     </span> */}
-                    <div class="dropdown"></div>
+                    <div className="dropdown"></div>
                 </div>
 
                 <div className="d-flex gap-1">

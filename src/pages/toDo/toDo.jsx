@@ -1,5 +1,6 @@
 import DefaultLayout from "../../layouts/defaultLayout/defaultLayout";
 import TaskList from "../../components/Elements/TaskList/TaskList";
+import CreateModal from "../../components/Elements/CreateModal/CreateModal";
 import style from "./toDo.module.css";
 const toDo = () => {
     return (
@@ -59,7 +60,7 @@ const toDo = () => {
                                 </ul>
                             </div>
                             <button
-                                className={`btn ${style.btn_primary_custom} shadow d-flex align-items-center gap-2 px-4`}
+                                className={`btn ${style.btn_primary_custom} shadow d-sm-none d-flex align-items-center gap-2 px-4`}
                                 data-bs-target="#addTaskModal"
                                 data-bs-toggle="modal"
                             >
@@ -89,6 +90,7 @@ const toDo = () => {
                     <TaskList />
                 </div>
             </main>
+            {/* Create Task Modal  */}
         </DefaultLayout>
     );
 };

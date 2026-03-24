@@ -85,6 +85,21 @@
     color: var(--bs-secondary);
 }
 
+/* Buttons */
+.btn_primary_custom {
+    background: linear-gradient(135deg, var(--primary-blue), #0056d2);
+    border: none;
+    border-radius: 50px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    color: white;
+}
+
+.btn_primary_custom:hover {
+    opacity: 0.9;
+    color: white;
+}
+
 /* nav link */
 
 .nav_link {

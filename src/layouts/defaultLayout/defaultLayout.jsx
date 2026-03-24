@@ -1,8 +1,10 @@
 import style from "./defaultLayout.module.css";
-import { useNavigate, NavLink } from "react-router-dom";
-const defaultLayout = (props) => {
-    const navigate = useNavigate();
-
+import CreateModal from "../../components/Elements/CreateModal/CreateModal";
+import Toast from "../../components/Elements/Toast/Toast";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+const DefaultLayout = (props) => {
+    const show = useSelector((state) => state.toast.show);
     const showMenuHandler = () => {
         document.getElementById(style.sidebar).classList.toggle(style.show);
         console.log(document.getElementById(style.sidebar));
@@ -103,6 +105,16 @@ const defaultLayout = (props) => {
                             >
                                 Add Task
                             </button> */}
+                            <button
+                                className={`btn ${style.btn_primary_custom} shadow d-none d-sm-flex align-items-center gap-2 px-4`}
+                                data-bs-target="#addTaskModal"
+                                data-bs-toggle="modal"
+                            >
+                                <span className="material-symbols-outlined fs-5">
+                                    add_task
+                                </span>{" "}
+                                Add New Task
+                            </button>
                             <div className="position-relative">
                                 <span className="material-symbols-outlined text-secondary cursor-pointer">
                                     notifications
@@ -119,7 +131,9 @@ const defaultLayout = (props) => {
                 </header>
                 <div>{props.children}</div>
             </div>
+            <CreateModal />
+            {show && <Toast />}
         </>
     );
 };
-export default defaultLayout;
+export default DefaultLayout;
