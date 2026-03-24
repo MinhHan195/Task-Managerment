@@ -1,9 +1,13 @@
 import style from "./defaultLayout.module.css";
+import { useNavigate, NavLink } from "react-router-dom";
 const defaultLayout = (props) => {
+    const navigate = useNavigate();
+
     const showMenuHandler = () => {
         document.getElementById(style.sidebar).classList.toggle(style.show);
         console.log(document.getElementById(style.sidebar));
     };
+
     return (
         <>
             <aside className={style.sidebar} id={style.sidebar}>
@@ -27,33 +31,33 @@ const defaultLayout = (props) => {
                     />
                 </div>
                 <nav className="nav flex-column mb-auto">
-                    <a
+                    <NavLink
+                        to="/"
                         className={`${style.nav_link} ${style.active}`}
-                        data-view="dashboard"
                     >
                         <span className="material-symbols-outlined">
                             dashboard
                         </span>
                         <span>Dashboard</span>
-                    </a>
-                    <a className={`${style.nav_link}`} data-view="todo">
+                    </NavLink>
+                    <NavLink to="/todolist" className={`${style.nav_link}`}>
                         <span className="material-symbols-outlined">
                             list_alt
                         </span>
                         <span>Todo</span>
-                    </a>
-                    <a className={`${style.nav_link}`} data-view="in-progress">
+                    </NavLink>
+                    <NavLink to="/in-progress" className={`${style.nav_link}`}>
                         <span className="material-symbols-outlined">
                             pending_actions
                         </span>
                         <span>In Progress</span>
-                    </a>
-                    <a className={`${style.nav_link}`} data-view="done">
+                    </NavLink>
+                    <NavLink to="/done" className={`${style.nav_link}`}>
                         <span className="material-symbols-outlined">
                             check_circle
                         </span>
                         <span>Done</span>
-                    </a>
+                    </NavLink>
                 </nav>
             </aside>
             <div className={style.main_wrapper}>
@@ -92,13 +96,13 @@ const defaultLayout = (props) => {
                             </div>
                         </div>
                         <div className="d-flex align-items-center gap-3">
-                            <button
+                            {/* <button
                                 className={`btn text-white ${style.btn_primary} d-none d-sm-block`}
                                 data-bs-target="#addTaskModal"
                                 data-bs-toggle="modal"
                             >
                                 Add Task
-                            </button>
+                            </button> */}
                             <div className="position-relative">
                                 <span className="material-symbols-outlined text-secondary cursor-pointer">
                                     notifications
