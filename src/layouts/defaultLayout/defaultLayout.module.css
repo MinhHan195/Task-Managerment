@@ -102,8 +102,12 @@
 
 /* nav link */
 
-.nav_link {
+.nav{
     all: unset;
+}
+
+.nav_link {
+    
     color: var(--bs-secondary);
     padding: 0.85rem 1.5rem;
     display: flex;

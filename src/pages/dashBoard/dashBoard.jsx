@@ -132,37 +132,37 @@ const dashBoard = () => {
                                 {/* <div class="text-center py-5 text-muted">
                                     No tasks found in this category.
                                 </div> */}
-                                <div class="task-item shadow-sm">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="d-flex align-items-center gap-3">
-                                            <div class="p-2 rounded-3 bg-light ${statusColor}">
-                                                <span class="material-symbols-outlined">
+                                <div className="task-item shadow-sm">
+                                    <div className="d-flex align-items-center justify-content-between">
+                                        <div className="d-flex align-items-center gap-3">
+                                            <div className="p-2 rounded-3 bg-light ${statusColor}">
+                                                <span className="material-symbols-outlined">
                                                     {/* ${statusIcon} */}
                                                 </span>
                                             </div>
                                             <div>
-                                                <div class="fw-bold">
+                                                <div className="fw-bold">
                                                     {/* ${task.name} */}
                                                 </div>
-                                                <div class="small text-secondary">
+                                                <div className="small text-secondary">
                                                     Due: {/* ${task.date} */}
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="dropdown">
+                                        <div className="dropdown">
                                             <button
-                                                class="btn btn-link text-secondary p-0"
+                                                className="btn btn-link text-secondary p-0"
                                                 data-bs-toggle="dropdown"
                                             >
-                                                <span class="material-symbols-outlined">
+                                                <span className="material-symbols-outlined">
                                                     more_vert
                                                 </span>
                                             </button>
-                                            <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                                            <ul className="dropdown-menu dropdown-menu-end shadow border-0">
                                                 <li>
                                                     <a
-                                                        class="dropdown-item small"
-                                                        onclick="deleteTask(${task.id})"
+                                                        className="dropdown-item small"
+                                                        // onClick={() => deleteTask(task.id)}
                                                     >
                                                         Delete
                                                     </a>

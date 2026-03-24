@@ -2,7 +2,7 @@ import DefaultLayout from "../../layouts/defaultLayout/defaultLayout";
 import TaskList from "../../components/Elements/TaskList/TaskList";
 import CreateModal from "../../components/Elements/CreateModal/CreateModal";
 import style from "./toDo.module.css";
-const toDo = () => {
+const ToDo = () => {
     return (
         <DefaultLayout>
             <main className={`${style["main_content"]}`}>
@@ -94,4 +94,4 @@ const toDo = () => {
         </DefaultLayout>
     );
 };
-export default toDo;
+export default ToDo;

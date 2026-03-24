@@ -6,16 +6,10 @@ function AppRouter() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<DashBoard />} />
-            </Routes>
-            <Routes>
                 <Route path="/todolist" element={<ToDo />} />
+                {/* <Route path="/in-progress" element={<InProgress />} /> */}
+                {/* <Route path="/done" element={<Done />} /> */}
             </Routes>
-            {/* <Routes>
-                <Route path="/in-progress" element={<InProgress />} />
-            </Routes>
-            <Routes>
-                <Route path="/done" element={<Done />} />
-            </Routes> */}
         </BrowserRouter>
     );
 }

@@ -5,9 +5,9 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 const DefaultLayout = (props) => {
     const show = useSelector((state) => state.toast.show);
+
     const showMenuHandler = () => {
         document.getElementById(style.sidebar).classList.toggle(style.show);
-        console.log(document.getElementById(style.sidebar));
     };
 
     return (
@@ -33,32 +33,61 @@ const DefaultLayout = (props) => {
                     />
                 </div>
                 <nav className="nav flex-column mb-auto">
-                    <NavLink
-                        to="/"
-                        className={`${style.nav_link} ${style.active}`}
-                    >
-                        <span className="material-symbols-outlined">
-                            dashboard
-                        </span>
-                        <span>Dashboard</span>
+                    <NavLink to="/" className={style.nav}>
+                        {({ isActive }) => {
+                            return (
+                                <div
+                                    className={`${style.nav_link} ${isActive ? style.active : null}`}
+                                >
+                                    <span className="material-symbols-outlined">
+                                        dashboard
+                                    </span>
+                                    <span>Dashboard</span>
+                                </div>
+                            );
+                        }}
                     </NavLink>
-                    <NavLink to="/todolist" className={`${style.nav_link}`}>
-                        <span className="material-symbols-outlined">
-                            list_alt
-                        </span>
-                        <span>Todo</span>
+                    <NavLink to="/todolist" className={style.nav}>
+                        {({ isActive }) => {
+                            return (
+                                <div
+                                    className={`${style.nav_link} ${isActive ? style.active : null}`}
+                                >
+                                    <span className="material-symbols-outlined">
+                                        list_alt
+                                    </span>
+                                    <span>Todo</span>
+                                </div>
+                            );
+                        }}
                     </NavLink>
-                    <NavLink to="/in-progress" className={`${style.nav_link}`}>
-                        <span className="material-symbols-outlined">
-                            pending_actions
-                        </span>
-                        <span>In Progress</span>
+                    <NavLink to="/in-progress" className={style.nav}>
+                        {({ isActive }) => {
+                            return (
+                                <div
+                                    className={`${style.nav_link} ${isActive ? style.active : null}`}
+                                >
+                                    <span className="material-symbols-outlined">
+                                        pending_actions
+                                    </span>
+                                    <span>In Progress</span>
+                                </div>
+                            );
+                        }}
                     </NavLink>
-                    <NavLink to="/done" className={`${style.nav_link}`}>
-                        <span className="material-symbols-outlined">
-                            check_circle
-                        </span>
-                        <span>Done</span>
+                    <NavLink to="/done" className={style.nav}>
+                        {({ isActive }) => {
+                            return (
+                                <div
+                                    className={`${style.nav_link} ${isActive ? style.active : null}`}
+                                >
+                                    <span className="material-symbols-outlined">
+                                        check_circle
+                                    </span>
+                                    <span>Done</span>
+                                </div>
+                            );
+                        }}
                     </NavLink>
                 </nav>
             </aside>
@@ -98,13 +127,6 @@ const DefaultLayout = (props) => {
                             </div>
                         </div>
                         <div className="d-flex align-items-center gap-3">
-                            {/* <button
-                                className={`btn text-white ${style.btn_primary} d-none d-sm-block`}
-                                data-bs-target="#addTaskModal"
-                                data-bs-toggle="modal"
-                            >
-                                Add Task
-                            </button> */}
                             <button
                                 className={`btn ${style.btn_primary_custom} shadow d-none d-sm-flex align-items-center gap-2 px-4`}
                                 data-bs-target="#addTaskModal"
