@@ -6,23 +6,15 @@ const client = new PocketBase(import.meta.env.VITE_POCKETBASE_URL);
 const taskService = {
 
     createTask: async (taskData) => {
-        try {
-            const record = await client.collection('tasks').create(taskData);
-            return record;
-        } catch (error) {
-            console.error('Error creating task:', error);
-            throw error;
-        }
+        const record = await client.collection('tasks').create(taskData);
+        return record;
     },
 
-    getAllTasks: async () => {
-        try {
-            const records = await client.collection('tasks').getFullList();
-            return records;
-        } catch (error) {
-            console.error('Error fetching tasks:', error);
-            throw error;
-        }
+    getAllTasksByState: async (state) => {
+        const records = await client.collection('tasks').getFullList({
+            filter: `state = '${state}'`
+        });
+        return records;
     },
 }
 export default taskService;

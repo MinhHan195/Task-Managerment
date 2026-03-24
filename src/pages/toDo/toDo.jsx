@@ -1,8 +1,17 @@
 import DefaultLayout from "../../layouts/defaultLayout/defaultLayout";
 import TaskList from "../../components/Elements/TaskList/TaskList";
-import CreateModal from "../../components/Elements/CreateModal/CreateModal";
+import { fetchTasks } from "../../redux/taskSlide";
+import { useDispatch, useSelector } from "react-redux";
 import style from "./toDo.module.css";
+import { useEffect } from "react";
 const ToDo = () => {
+    const dispatch = useDispatch();
+    const todoTasks = useSelector((state) => state.task.todo);
+
+    useEffect(() => {
+        dispatch(fetchTasks("to-do"));
+    }, [dispatch]);
+
     return (
         <DefaultLayout>
             <main className={`${style["main_content"]}`}>
@@ -72,7 +81,7 @@ const ToDo = () => {
                         </div>
                     </div>
                     {/* Quick Search & Filter Mobile (Visible on small screens) */}
-                    <div className="row d-md-none mb-4">
+                    {/* <div className="row d-md-none mb-4">
                         <div className="col-12">
                             <div className="search-container d-flex align-items-center w-100 bg-white border">
                                 <span className="material-symbols-outlined text-secondary fs-5">
@@ -85,9 +94,9 @@ const ToDo = () => {
                                 />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/* Task Grid  */}
-                    <TaskList />
+                    <TaskList list={todoTasks} />
                 </div>
             </main>
             {/* Create Task Modal  */}
