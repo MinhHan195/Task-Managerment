@@ -1,0 +1,58 @@
+/* Buttons */
+.btn_primary_custom {
+    background: linear-gradient(135deg, var(--primary-blue), #0056d2);
+    border: none;
+    border-radius: 50px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    color: white;
+}
+
+.btn_primary_custom:hover {
+    opacity: 0.9;
+    color: white;
+}
+
+.priority_circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.btn_unselect_custom {
+    background-color: white !important;
+    color: black !important;
+    border-color: grey !important;
+}
+
+.invalid_feedback {
+    position: absolute;
+    bottom: -25px;
+    right: 0;
+}
+
+.file_card {
+    display: flex;
+    align-items: center;
+    padding: 0px 5px;
+    background-color: var(--bg-primary);
+    border: 1px solid grey;
+    border-radius: 60px;
+}
+
+.file_card span {
+    max-width: 250px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.file_card div {
+    display: inline;
+    font-size: 20px;
+    cursor: pointer;
+}

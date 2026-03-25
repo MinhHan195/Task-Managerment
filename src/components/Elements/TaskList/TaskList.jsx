@@ -2,9 +2,6 @@
 import { useEffect } from "react";
 import TaskCard from "../TaskCard/TaskCard";
 const TaskList = ({ list }) => {
-    useEffect(() => {
-        console.log(list);
-    }, [list]);
     return (
         <>
             {/* Task Grid  */}

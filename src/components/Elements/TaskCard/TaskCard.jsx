@@ -1,11 +1,18 @@
 import style from "./TaskCard.module.css";
+import DeleteConfirm from "../DeleteConfirm/DeleteConfirm";
+import EditModal from "../EditModal/EditModal";
 import {
     differenceInMonths,
     differenceInWeeks,
     differenceInDays,
     differenceInHours,
 } from "date-fns";
+import taskService from "../../../service/task.service";
+import { useDispatch } from "react-redux";
+import { updateTask } from "../../../redux/taskSlide";
+import { setToast } from "../../../redux/toastSlide";
 const TaskCard = ({ task }) => {
+    const dispatch = useDispatch();
     const deadline = () => {
         const now = new Date();
         const dueDate = new Date(task.deadline);
@@ -57,6 +64,36 @@ const TaskCard = ({ task }) => {
         return `${Math.abs(hours)} hour${Math.abs(hours) > 1 ? "s" : ""}`;
     }
 
+    const startTask = async () => {
+        const payload = {
+            id: task?.id,
+            state: "in-progress",
+        };
+
+        // Gọi API
+        const result = await taskService.updateTask(payload);
+        if (result.id) {
+            dispatch(updateTask(result));
+
+            // Hiển thị toast thành công
+            dispatch(
+                setToast({
+                    show: true,
+                    msg: "Task updated successfully!",
+                    type: "success",
+                }),
+            );
+        } else {
+            dispatch(
+                setToast({
+                    show: true,
+                    msg: "Failed to create task.",
+                    type: "error",
+                }),
+            );
+        }
+    };
+
     return (
         <div className="card task-card shadow-sm overdue p-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
@@ -89,6 +126,14 @@ const TaskCard = ({ task }) => {
                             High Priority
                         </span>
                     ) : null}
+                    {task.priority === "normal" && task.state !== "done" ? (
+                        <span
+                            className="badge rounded-pill bg-secondary text-white px-3 py-1 text-uppercase fw-bold"
+                            style={{ fontSize: "10px", letterSpacing: "0.5px" }}
+                        >
+                            Normal
+                        </span>
+                    ) : null}
                     {task.priority === "low" && task.state !== "done" ? (
                         <span
                             className="badge rounded-pill bg-success text-white px-3 py-1 text-uppercase fw-bold"
@@ -107,7 +152,7 @@ const TaskCard = ({ task }) => {
                     ) : null}
 
                     {deadline() > 0 &&
-                    deadline() <= 3 &&
+                    deadline() <= 5 &&
                     task.state !== "done" ? (
                         <span
                             className="badge rounded-pill bg-warning bg-opacity-25 text-warning-emphasis px-3 py-1 text-uppercase fw-bold"
@@ -121,32 +166,25 @@ const TaskCard = ({ task }) => {
                 </div>
 
                 <div className="d-flex gap-1">
-                    <button
-                        className="btn btn-link btn-sm text-secondary p-1"
-                        title="Edit Task"
-                    >
-                        <span className="material-symbols-outlined fs-5">
-                            edit_note
-                        </span>
-                    </button>
-                    <button
-                        className="btn btn-link btn-sm text-danger p-1"
-                        title="Delete Task"
-                    >
-                        <span className="material-symbols-outlined fs-5">
-                            delete
-                        </span>
-                    </button>
+                    <EditModal task={task} />
+                    <DeleteConfirm task={task} />
                 </div>
             </div>
             <h5 className="card-title fw-bold font-headline mb-3">
                 {task.title}
             </h5>
-            <p className="card-text text-muted small mb-4">
-                {task.description.length > 100
-                    ? task.description.substring(0, 100) + "..."
+            <p
+                className="card-text text-muted small "
+                style={{ height: "42px" }}
+            >
+                {task.description.length > 96
+                    ? task.description.substring(0, 96)
                     : task.description}
+                {task.description.length > 96 ? (
+                    <EditModal task={task} readOnly={true} />
+                ) : null}
             </p>
+
             <div className="mt-auto">
                 <div
                     className={`d-flex align-items-center gap-2 fw-bold mb-3 ${deadline() < 0 ? "text-danger" : deadline() > 0 && deadline() < 5 ? "text-warning-emphasis" : "text-secondary"}`}
@@ -162,7 +200,7 @@ const TaskCard = ({ task }) => {
                         </span>
                     ) : null}
                     {deadline() > 5 ? (
-                        <span class="material-symbols-outlined fs-6">
+                        <span className="material-symbols-outlined fs-6">
                             calendar_month
                         </span>
                     ) : null}{" "}
@@ -194,7 +232,10 @@ const TaskCard = ({ task }) => {
                                 : `Due in ${getTimeLeft(task.deadline)}`}
                         </span>
                     </div>
-                    <button className="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold d-flex align-items-center gap-1">
+                    <button
+                        className="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold d-flex align-items-center gap-1"
+                        onClick={startTask}
+                    >
                         START{" "}
                         <span className="material-symbols-outlined fs-6">
                             play_arrow

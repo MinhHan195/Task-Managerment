@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setToast } from "../../../redux/toastSlide";
+import { createTask } from "../../../redux/taskSlide";
 import taskService from "../../../service/task.service";
 import style from "./CreateModal.module.css";
 const CreateModal = ({ title, description, deadline, state, priority }) => {
@@ -49,8 +50,9 @@ const CreateModal = ({ title, description, deadline, state, priority }) => {
         };
 
         const result = await taskService.createTask(newTask);
-        console.log(result);
+        // console.log(result);
         if (result.id) {
+            dispatch(createTask(result));
             // Reset form
             setTaskTitle("");
             setTaskDescription("");
