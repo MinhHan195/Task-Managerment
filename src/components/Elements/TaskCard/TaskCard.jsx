@@ -64,10 +64,33 @@ const TaskCard = ({ task }) => {
         return `${Math.abs(hours)} hour${Math.abs(hours) > 1 ? "s" : ""}`;
     }
 
-    const startTask = async () => {
+    function extractDateFromComplete(completeString) {
+        if (!completeString) return null;
+
+        const date = new Date(completeString);
+
+        return new Intl.DateTimeFormat("en-US", {
+            month: "short", // Oct
+            day: "numeric", // 12
+            year: "numeric", // 2023
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true, // AM/PM
+        })
+            .format(date)
+            .replace(",", " •");
+    }
+
+    const updateStateTask = async (state) => {
+        let DateConverted;
+        if (state === "done") {
+            const complete = new Date();
+            DateConverted = complete.toISOString();
+        }
         const payload = {
             id: task?.id,
-            state: "in-progress",
+            state: state,
+            complete: state === "done" ? DateConverted : "N/A",
         };
 
         // Gọi API
@@ -187,19 +210,29 @@ const TaskCard = ({ task }) => {
 
             <div className="mt-auto">
                 <div
-                    className={`d-flex align-items-center gap-2 fw-bold mb-3 ${deadline() < 0 ? "text-danger" : deadline() > 0 && deadline() < 5 ? "text-warning-emphasis" : "text-secondary"}`}
+                    className={`d-flex align-items-center gap-2 fw-bold mb-3 ${
+                        deadline() < 0 && task.state !== "done"
+                            ? "text-danger"
+                            : deadline() > 0 &&
+                                deadline() < 5 &&
+                                task.state !== "done"
+                              ? "text-warning-emphasis"
+                              : "text-secondary"
+                    }`}
                 >
-                    {deadline() < 0 ? (
+                    {deadline() < 0 && task.state !== "done" ? (
                         <span className="material-symbols-outlined fs-6">
                             event_busy
                         </span>
                     ) : null}
-                    {deadline() > 0 && deadline() < 5 ? (
+                    {deadline() > 0 &&
+                    deadline() < 5 &&
+                    task.state !== "done" ? (
                         <span className="material-symbols-outlined fs-6">
                             schedule
                         </span>
                     ) : null}
-                    {deadline() > 5 ? (
+                    {deadline() > 5 || task.state === "done" ? (
                         <span className="material-symbols-outlined fs-6">
                             calendar_month
                         </span>
@@ -208,39 +241,68 @@ const TaskCard = ({ task }) => {
                 </div>
                 <hr className="my-3 opacity-10" />
                 <div className="w-100 d-flex justify-content-between align-items-center">
-                    <div
-                        className={`d-flex align-items-center gap-2 ms-1`}
-                        style={{
-                            "--dot-color":
-                                deadline() < 0
-                                    ? "#DC3545"
-                                    : deadline() > 0 && deadline() < 5
-                                      ? "#664D03"
-                                      : "#595C5F",
-                        }}
-                    >
-                        <div className={style.dot_wrapper} id="dotWrapper">
-                            <div className={style.ring}></div>
-                            <div className={style.ring}></div>
-                            <div className={style.dot} id="dot"></div>
-                        </div>
-                        <span
-                            className={`small ${deadline() < 0 ? "text-danger" : deadline() > 0 && deadline() < 5 ? "text-warning-emphasis" : "text-secondary"}`}
+                    {task.state !== "done" ? (
+                        <div
+                            className={`d-flex align-items-center gap-2 ms-1`}
+                            style={{
+                                "--dot-color":
+                                    deadline() < 0
+                                        ? "#DC3545"
+                                        : deadline() > 0 && deadline() < 5
+                                          ? "#664D03"
+                                          : "#595C5F",
+                            }}
                         >
-                            {deadline() < 0
-                                ? "Overdue"
-                                : `Due in ${getTimeLeft(task.deadline)}`}
-                        </span>
-                    </div>
-                    <button
-                        className="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold d-flex align-items-center gap-1"
-                        onClick={startTask}
-                    >
-                        START{" "}
-                        <span className="material-symbols-outlined fs-6">
-                            play_arrow
-                        </span>
-                    </button>
+                            <div className={style.dot_wrapper} id="dotWrapper">
+                                <div className={style.ring}></div>
+                                <div className={style.ring}></div>
+                                <div className={style.dot} id="dot"></div>
+                            </div>
+                            <span
+                                className={`small ${deadline() < 0 ? "text-danger" : deadline() > 0 && deadline() < 5 ? "text-warning-emphasis" : "text-secondary"}`}
+                            >
+                                {deadline() < 0
+                                    ? "Overdue"
+                                    : `Due in ${getTimeLeft(task.deadline)}`}
+                            </span>
+                        </div>
+                    ) : (
+                        <div className={`d-flex align-items-center gap-2 ms-1`}>
+                            <span className="material-symbols-outlined fs-6 text-success">
+                                calendar_month
+                            </span>
+                            <span className={`small text-success "}`}>
+                                Completed:{" "}
+                                {extractDateFromComplete(task.complete)}
+                            </span>
+                        </div>
+                    )}
+
+                    {task.state === "to-do" ? (
+                        <button
+                            className="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold d-flex align-items-center gap-1"
+                            onClick={() => {
+                                updateStateTask("in-progress");
+                            }}
+                        >
+                            START{" "}
+                            <span className="material-symbols-outlined fs-6">
+                                play_arrow
+                            </span>
+                        </button>
+                    ) : task.state === "in-progress" ? (
+                        <button
+                            className="btn btn-sm btn-success  rounded-pill px-3 fw-bold d-flex align-items-center gap-1"
+                            onClick={() => {
+                                updateStateTask("done");
+                            }}
+                        >
+                            DONE{" "}
+                            <span className="material-symbols-outlined fs-6">
+                                play_arrow
+                            </span>
+                        </button>
+                    ) : null}
                 </div>
             </div>
         </div>

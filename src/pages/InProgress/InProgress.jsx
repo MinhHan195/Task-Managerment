@@ -2,14 +2,14 @@ import DefaultLayout from "../../layouts/defaultLayout/defaultLayout";
 import TaskList from "../../components/Elements/TaskList/TaskList";
 import { fetchTasks } from "../../redux/taskSlide";
 import { useDispatch, useSelector } from "react-redux";
-import style from "./toDo.module.css";
+import style from "./InProgress.module.css";
 import { useEffect } from "react";
-const ToDo = () => {
+const InProgress = () => {
     const dispatch = useDispatch();
-    const todoTasks = useSelector((state) => state.task.todo);
+    const tasks = useSelector((state) => state.task.inprogress);
 
     useEffect(() => {
-        dispatch(fetchTasks("to-do"));
+        dispatch(fetchTasks("in-progress"));
     }, [dispatch]);
 
     return (
@@ -20,11 +20,11 @@ const ToDo = () => {
                     <div className="row align-items-end mb-4 g-4">
                         <div className="col-md-7">
                             <h1 className="display-5 fw-bold font-headline mb-2">
-                                Todo Tasks
+                                In Progress
                             </h1>
                             <p className="text-muted fs-5">
-                                Focus on what needs to be started. You have{" "}
-                                {todoTasks.length} tasks pending.
+                                You have {tasks.length} tasks currently being
+                                handled.
                             </p>
                         </div>
                         <div className="col-md-5 d-flex justify-content-md-end gap-3 align-items-center">
@@ -96,11 +96,11 @@ const ToDo = () => {
                         </div>
                     </div> */}
                     {/* Task Grid  */}
-                    <TaskList list={todoTasks} />
+                    <TaskList list={tasks} />
                 </div>
             </main>
             {/* Create Task Modal  */}
         </DefaultLayout>
     );
 };
-export default ToDo;
+export default InProgress;
