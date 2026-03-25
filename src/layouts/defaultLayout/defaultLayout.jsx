@@ -1,13 +1,21 @@
 import style from "./defaultLayout.module.css";
 import CreateModal from "../../components/Elements/CreateModal/CreateModal";
 import Toast from "../../components/Elements/Toast/Toast";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setSearchQuery, getFilteredTasks } from "../../redux/taskSlide";
 import { NavLink } from "react-router-dom";
 const DefaultLayout = (props) => {
     const show = useSelector((state) => state.toast.show);
+    const dispatch = useDispatch();
 
     const showMenuHandler = () => {
         document.getElementById(style.sidebar).classList.toggle(style.show);
+    };
+
+    const searchHandle = (e) => {
+        const query = e.target.value;
+        dispatch(setSearchQuery(query));
+        dispatch(getFilteredTasks());
     };
 
     return (
@@ -30,6 +38,7 @@ const DefaultLayout = (props) => {
                         className={`form-control ${style.search_input}`}
                         placeholder="Search tasks..."
                         type="text"
+                        onChange={searchHandle}
                     />
                 </div>
                 <nav className="nav flex-column mb-auto">
@@ -123,6 +132,7 @@ const DefaultLayout = (props) => {
                                     className={`form-control ${style.search_input}`}
                                     placeholder="Search tasks..."
                                     type="text"
+                                    onChange={searchHandle}
                                 />
                             </div>
                         </div>

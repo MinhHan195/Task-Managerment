@@ -21,13 +21,53 @@ const taskSlice = createSlice({
         todo: [],
         inprogress: [],
         done: [],
+        filteredTodo: [],
+        filteredInprogress: [],
+        filteredDone: [],
         loading: false,
         error: null,
-        sortState: 'Date'
+        sortState: 'Date',
+        searchQuery: ''
     },
     reducers: {
         setSortState: (state, action) => {
             state.sortState = action.payload;
+        },
+
+        setSearchQuery: (state, action) => {
+            state.searchQuery = action.payload;
+        },
+
+        getFilteredTasks: (state) => {
+            const query = state.searchQuery.toLowerCase().trim();
+
+            if (!query) {
+                // Nếu không có query, reset filtered arrays
+                state.filteredTodo = [];
+                state.filteredInprogress = [];
+                state.filteredDone = [];
+                return;
+            }
+
+            const filterTasks = (tasks) => {
+                return tasks.filter((task) => {
+                    const titleMatch = task.title.toLowerCase().includes(query);
+                    const descriptionMatch = task.description.toLowerCase().includes(query);
+                    return titleMatch || descriptionMatch;
+                });
+            };
+
+            // Tạo filtered arrays mà không modify mảy gốc
+            state.filteredTodo = filterTasks(state.todo);
+            state.filteredInprogress = filterTasks(state.inprogress);
+            state.filteredDone = filterTasks(state.done);
+        },
+
+        clearFilteredTasks: (state) => {
+            state.filteredTodo = [];
+            state.filteredInprogress = [];
+            state.filteredDone = [];
+            state.searchQuery = '';
         },
 
         applySorting: (state) => {
@@ -214,7 +254,6 @@ const taskSlice = createSlice({
                         state.done = result;
                     }
                 }
-                console.log(result);
             })
             .addCase(fetchTasks.rejected, (state, action) => {
                 state.loading = false;
@@ -223,6 +262,6 @@ const taskSlice = createSlice({
     },
 });
 
-export const { deleteTask, createTask, updateTask, setSortState, applySorting, sortTasksByDeadline, sortTasksByPriority, sortTasksByTitle } = taskSlice.actions;
+export const { deleteTask, createTask, updateTask, setSortState, applySorting, sortTasksByDeadline, sortTasksByPriority, sortTasksByTitle, setSearchQuery, getFilteredTasks, clearFilteredTasks } = taskSlice.actions;
 
 export default taskSlice.reducer;

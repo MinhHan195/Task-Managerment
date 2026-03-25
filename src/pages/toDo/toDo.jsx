@@ -8,6 +8,10 @@ import SortBtn from "../../components/Elements/SortBtn/SortBtn";
 const ToDo = () => {
     const dispatch = useDispatch();
     const todoTasks = useSelector((state) => state.task.todo);
+    const filteredTodoTasks = useSelector((state) => state.task.filteredTodo);
+    
+    // Ưu tiên hiển thị filtered tasks, nếu không có thì hiển thị todo gốc
+    const displayTasks = filteredTodoTasks.length > 0 ? filteredTodoTasks : todoTasks;
 
     useEffect(() => {
         dispatch(fetchTasks("to-do"));
@@ -25,7 +29,7 @@ const ToDo = () => {
                             </h1>
                             <p className="text-muted fs-5">
                                 Focus on what needs to be started. You have{" "}
-                                {todoTasks.length} tasks pending.
+                                {displayTasks.length} tasks pending.
                             </p>
                         </div>
                         <div className="col-md-5 d-flex justify-content-md-end gap-3 align-items-center">
@@ -58,7 +62,7 @@ const ToDo = () => {
                         </div>
                     </div> */}
                     {/* Task Grid  */}
-                    <TaskList list={todoTasks} />
+                    <TaskList list={displayTasks} />
                 </div>
             </main>
             {/* Create Task Modal  */}

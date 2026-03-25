@@ -8,6 +8,10 @@ import SortBtn from "../../components/Elements/SortBtn/SortBtn";
 const Done = () => {
     const dispatch = useDispatch();
     const tasks = useSelector((state) => state.task.done);
+    const filteredTasks = useSelector((state) => state.task.filteredDone);
+    
+    // Ưu tiên hiển thị filtered tasks, nếu không có thì hiển thị done gốc
+    const displayTasks = filteredTasks.length > 0 ? filteredTasks : tasks;
 
     useEffect(() => {
         dispatch(fetchTasks("done"));
@@ -24,7 +28,7 @@ const Done = () => {
                                 Task Completed
                             </h1>
                             <p className="text-muted fs-5">
-                                Great! You have completed {tasks.length} tasks.
+                                Great! You have completed {displayTasks.length} tasks.
                             </p>
                         </div>
                         <div className="col-md-5 d-flex justify-content-md-end gap-3 align-items-center">
@@ -57,7 +61,7 @@ const Done = () => {
                         </div>
                     </div> */}
                     {/* Task Grid  */}
-                    <TaskList list={tasks} />
+                    <TaskList list={displayTasks} />
                 </div>
             </main>
             {/* Create Task Modal  */}
