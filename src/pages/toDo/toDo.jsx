@@ -9,9 +9,10 @@ const ToDo = () => {
     const dispatch = useDispatch();
     const todoTasks = useSelector((state) => state.task.todo);
     const filteredTodoTasks = useSelector((state) => state.task.filteredTodo);
-    
+
     // Ưu tiên hiển thị filtered tasks, nếu không có thì hiển thị todo gốc
-    const displayTasks = filteredTodoTasks.length > 0 ? filteredTodoTasks : todoTasks;
+    const displayTasks =
+        filteredTodoTasks.length > 0 ? filteredTodoTasks : todoTasks;
 
     useEffect(() => {
         dispatch(fetchTasks("to-do"));

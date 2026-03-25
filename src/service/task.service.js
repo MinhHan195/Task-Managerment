@@ -23,7 +23,7 @@ const taskService = {
     getAllTasksByState: async (state) => {
         const records = await client.collection('tasks').getFullList({
             filter: `state = '${state}'`
-        });
+        }, { requestKey: null });
         return records;
     },
 }

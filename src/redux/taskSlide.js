@@ -10,6 +10,7 @@ export const fetchTasks = createAsyncThunk(
             const result = await taskService.getAllTasksByState(state);
             return { state, result };
         } catch (error) {
+            console.log(error)
             return rejectWithValue(error.message);
         }
     }
