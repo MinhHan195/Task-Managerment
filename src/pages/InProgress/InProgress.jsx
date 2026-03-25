@@ -46,22 +46,6 @@ const InProgress = () => {
                             </button>
                         </div>
                     </div>
-                    {/* Quick Search & Filter Mobile (Visible on small screens) */}
-                    {/* <div className="row d-md-none mb-4">
-                        <div className="col-12">
-                            <div className="search-container d-flex align-items-center w-100 bg-white border">
-                                <span className="material-symbols-outlined text-secondary fs-5">
-                                    search
-                                </span>
-                                <input
-                                    className="form-control form-control-sm"
-                                    placeholder="Search tasks..."
-                                    type="text"
-                                />
-                            </div>
-                        </div>
-                    </div> */}
-                    {/* Task Grid  */}
                     <TaskList list={displayTasks} />
                 </div>
             </main>
