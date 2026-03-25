@@ -105,11 +105,11 @@ const EditModal = ({ task, readOnly }) => {
             }
         });
         if (e.target.classList.contains(`.priority_btn`)) {
-            e.target.classList.toggle(`${style.btn_unselect_custom}`);
+            e.target.classList.remove(`${style.btn_unselect_custom}`);
         } else {
             e.target
                 .closest(".priority_btn")
-                .classList.toggle(`${style.btn_unselect_custom}`);
+                .classList.remove(`${style.btn_unselect_custom}`);
         }
     }
 
