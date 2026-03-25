@@ -1,7 +1,8 @@
 Hướng dẫn cài đặt:
-B1: Clone github về máy
-B2: Chạy lệnh "npm install" để cài đặt thư viện
-B3: Chạy lệnh "npm start" sau đó nhấn "o" để mở trang web
+
+    B1: Clone github về máy
+    B2: Chạy lệnh "npm install" để cài đặt thư viện
+    B3: Chạy lệnh "npm start" sau đó nhấn "o" để mở trang web
 
 Lưu ý:
 
@@ -9,14 +10,14 @@ Lưu ý:
 
 - Nếu làm theo cách trên thì website đang kết nối tới tài khoảng db pockethost của em. Nếu Anh/chị muốn chạy trên tài khoản pockethost của riêng mình thì hãy tạo tài khoản (có tốn phí), sau đó cập nhật lại url trong file .env và cài đặt bảng colection theo mẫu sau:
 
-                    tasks {
-                        title: Plain text
-                        description: Plain text
-                        deadline: DateTime
-                        state: Plain text
-                        priority: Plain text
-                        complete: DateTime
-                    }
+    tasks {
+    title: Plain text
+    description: Plain text
+    deadline: DateTime
+    state: Plain text
+    priority: Plain text
+    complete: DateTime
+    }
 
 Quyết định kỹ thuật:
 Khi thực hiện dự án, em đặt ra các yêu cầu cá nhân
