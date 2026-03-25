@@ -4,6 +4,7 @@ import { fetchTasks } from "../../redux/taskSlide";
 import { useDispatch, useSelector } from "react-redux";
 import style from "./toDo.module.css";
 import { useEffect } from "react";
+import SortBtn from "../../components/Elements/SortBtn/SortBtn";
 const ToDo = () => {
     const dispatch = useDispatch();
     const todoTasks = useSelector((state) => state.task.todo);
@@ -28,46 +29,7 @@ const ToDo = () => {
                             </p>
                         </div>
                         <div className="col-md-5 d-flex justify-content-md-end gap-3 align-items-center">
-                            <div className="dropdown">
-                                <button
-                                    className="btn btn-light border bg-white px-4 py-2 rounded-pill fw-semibold d-flex align-items-center gap-2 "
-                                    data-bs-toggle="dropdown"
-                                    type="button"
-                                >
-                                    <span className="material-symbols-outlined fs-6">
-                                        sort
-                                    </span>{" "}
-                                    Sort by: Date
-                                </button>
-                                <ul
-                                    className={`dropdown-menu dropdown-menu-end rounded-3 shadow border-0 mt-2 ${style.dropdown_menu}`}
-                                >
-                                    <li>
-                                        <a
-                                            className="dropdown-item py-2"
-                                            href="#"
-                                        >
-                                            Due Date (Earliest)
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            className="dropdown-item py-2"
-                                            href="#"
-                                        >
-                                            Priority (High to Low)
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            className="dropdown-item py-2"
-                                            href="#"
-                                        >
-                                            Alphabetical
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <SortBtn />
                             <button
                                 className={`btn ${style.btn_primary_custom} shadow d-sm-none d-flex align-items-center gap-2 px-4`}
                                 data-bs-target="#addTaskModal"

@@ -23,8 +23,62 @@ const taskSlice = createSlice({
         done: [],
         loading: false,
         error: null,
+        sortState: 'Date'
     },
     reducers: {
+        setSortState: (state, action) => {
+            state.sortState = action.payload;
+        },
+
+        applySorting: (state) => {
+            const sortByDeadline = (tasks) => {
+                return [...tasks].sort((a, b) => {
+                    const dateA = new Date(a.deadline).getTime();
+                    const dateB = new Date(b.deadline).getTime();
+                    return dateA - dateB;
+                });
+            };
+
+            const sortByPriority = (tasks) => {
+                const priorityOrder = { urgent: 0, high: 1, normal: 2, low: 3 };
+                return [...tasks].sort((a, b) => {
+                    const priorityA = priorityOrder[a.priority] ?? 3;
+                    const priorityB = priorityOrder[b.priority] ?? 3;
+                    return priorityA - priorityB;
+                });
+            };
+
+            const sortByTitle = (tasks) => {
+                return [...tasks].sort((a, b) => {
+                    return a.title.localeCompare(b.title, undefined, { sensitivity: 'base' });
+                });
+            };
+
+            const applySort = (sortType) => {
+                switch (sortType) {
+                    case 'Date':
+                        state.todo = sortByDeadline(state.todo);
+                        state.inprogress = sortByDeadline(state.inprogress);
+                        state.done = sortByDeadline(state.done);
+                        break;
+                    case 'Priority':
+                        state.todo = sortByPriority(state.todo);
+                        state.inprogress = sortByPriority(state.inprogress);
+                        state.done = sortByPriority(state.done);
+                        break;
+                    case 'Alphabetical':
+                        state.todo = sortByTitle(state.todo);
+                        state.inprogress = sortByTitle(state.inprogress);
+                        state.done = sortByTitle(state.done);
+                        break;
+                    default:
+                        break;
+                }
+            };
+
+            applySort(state.sortState);
+        },
+
         deleteTask: (state, action) => {
             if (action.payload.state === 'to-do') {
                 state.todo = state.todo.filter(task => task.id !== action.payload.id);
@@ -43,6 +97,8 @@ const taskSlice = createSlice({
             } else if (action.payload.state === 'done') {
                 state.done.push(action.payload);
             }
+            // Apply sorting after creating task
+            taskSlice.caseReducers.applySorting(state);
         },
 
         updateTask: (state, action) => {
@@ -91,6 +147,53 @@ const taskSlice = createSlice({
                     state.inprogress = state.inprogress.filter(task => task.id !== updatedTask.id);
                 }
             }
+            // Apply sorting after updating task
+            taskSlice.caseReducers.applySorting(state);
+        },
+
+        sortTasksByDeadline: (state) => {
+            state.sortState = 'Date';
+            const sortByDeadline = (tasks) => {
+                return [...tasks].sort((a, b) => {
+                    const dateA = new Date(a.deadline).getTime();
+                    const dateB = new Date(b.deadline).getTime();
+                    return dateA - dateB;
+                });
+            };
+
+            state.todo = sortByDeadline(state.todo);
+            state.inprogress = sortByDeadline(state.inprogress);
+            state.done = sortByDeadline(state.done);
+        },
+
+        sortTasksByPriority: (state) => {
+            state.sortState = 'Priority';
+            const priorityOrder = { urgent: 0, high: 1, normal: 2, low: 3 };
+
+            const sortByPriority = (tasks) => {
+                return [...tasks].sort((a, b) => {
+                    const priorityA = priorityOrder[a.priority] ?? 3;
+                    const priorityB = priorityOrder[b.priority] ?? 3;
+                    return priorityA - priorityB;
+                });
+            };
+
+            state.todo = sortByPriority(state.todo);
+            state.inprogress = sortByPriority(state.inprogress);
+            state.done = sortByPriority(state.done);
+        },
+
+        sortTasksByTitle: (state) => {
+            state.sortState = 'Alphabetical';
+            const sortByTitle = (tasks) => {
+                return [...tasks].sort((a, b) => {
+                    return a.title.localeCompare(b.title, undefined, { sensitivity: 'base' });
+                });
+            };
+
+            state.todo = sortByTitle(state.todo);
+            state.inprogress = sortByTitle(state.inprogress);
+            state.done = sortByTitle(state.done);
         },
     },
     extraReducers: (builder) => {
@@ -120,6 +223,6 @@ const taskSlice = createSlice({
     },
 });
 
-export const { deleteTask, createTask, updateTask } = taskSlice.actions;
+export const { deleteTask, createTask, updateTask, setSortState, applySorting, sortTasksByDeadline, sortTasksByPriority, sortTasksByTitle } = taskSlice.actions;
 
 export default taskSlice.reducer;
